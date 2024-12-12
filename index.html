@@ -1,324 +1,344 @@
 <!DOCTYPE html>
 <html lang="fi">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Mock Up Karttasivu</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-    <style>
-        body {
-            padding-top: 70px;
-            background-color: #f8f9fa;
-        }
-        .map-container {
-            position: relative;
-            width: 100%;
-            height: 500px;
-        }
-        .event-marker {
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            background: red;
-            border-radius: 50%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            cursor: pointer;
-        }
-        #map {
-            width: 100%;
-            height: 100%;
-        }
-    </style>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-</head>
-<body>
-    <!-- Navigaatiopalkki -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-        <a class="navbar-brand" href="#">Tapahtumakartta</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Etusivu</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Omat tapahtumat</a>
-                </li>
-            </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Hae tapahtumia..." aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Hae</button>
-            </form>
-            <button class="btn btn-outline-primary my-2 my-sm-0 mx-2" id="loginButton" data-toggle="modal" data-target="#loginModal">Kirjaudu</button>
-            <button class="btn btn-outline-secondary my-2 my-sm-0" id="registerButton" data-toggle="modal" data-target="#registerModal">Rekisteröidy</button>
-            <button class="btn btn-outline-info my-2 my-sm-0 d-none" id="profileButton" onclick="window.location.href='/profile.html'">Profiili</button>
-            <button class="btn btn-outline-danger my-2 my-sm-0 d-none" id="logoutButton">Kirjaudu ulos</button>
-        </div>
-    </nav>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+		<title>Mock Up Karttasivu</title>
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" />
+		<style>
+			body {
+				padding-top: 70px;
+				background-color: #f8f9fa;
+			}
+			.map-container {
+				position: relative;
+				width: 100%;
+				height: 500px;
+			}
+			.event-marker {
+				position: absolute;
+				width: 30px;
+				height: 30px;
+				background: red;
+				border-radius: 50%;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				cursor: pointer;
+			}
+			#map {
+				width: 100%;
+				height: 100%;
+			}
+		</style>
+		<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+	</head>
+	<body>
+		<!-- Navigaatiopalkki -->
+		<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+			<a class="navbar-brand" href="#">Tapahtumakartta</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active">
+						<a class="nav-link" href="#">Etusivu</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Omat tapahtumat</a>
+					</li>
+				</ul>
+					<form id="searchForm" class="form-inline my-2 my-lg-0">
+						<input id="searchInput" class="form-control mr-sm-2" type="search" placeholder="Hae tapahtumia..." aria-label="Search">
+						<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Hae</button>
+					</form>
+				<button class="btn btn-outline-primary my-2 my-sm-0 mx-2" id="loginButton" data-toggle="modal" data-target="#loginModal">Kirjaudu</button>
+				<button class="btn btn-outline-secondary my-2 my-sm-0" id="registerButton" data-toggle="modal" data-target="#registerModal">Rekisteröidy</button>
+				<button class="btn btn-outline-info my-2 my-sm-0 d-none" id="profileButton" onclick="window.location.href='/profile.html'">Profiili</button>
+				<button class="btn btn-outline-danger my-2 my-sm-0 d-none" id="logoutButton">Kirjaudu ulos</button>
+			</div>
+		</nav>
 
-    <!-- Pääsisältö -->
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-md-8">
-                <h3>Kartta</h3>
-                <div class="map-container">
-                    <div id="map"></div>
-                </div>
-            </div>
+		<!-- Pääsisältö -->
+		<div class="container mt-4">
+			<div class="row">
+				<div class="col-md-8">
+					<h3>Kartta</h3>
+					<div class="map-container">
+						<div id="map"></div>
+					</div>
+				</div>
 
-            <div class="col-md-4">
-                <h3>Viime lisätyt tapahtumat</h3>
-                <ul class="list-group">
-                    <li class="list-group-item">
-                        <h5>Katujuhlat @ Helsinki</h5>
-                        <p>Pienimuotoiset juhlat Helsingin keskustassa.</p>
-                        <div>Reaktiot:
-                            <span class="btn btn-sm btn-light mx-1" role="button">😊</span>
-                            <span class="btn btn-sm btn-light mx-1" role="button">👍</span>
-                            <span class="btn btn-sm btn-light mx-1" role="button">🎉</span>
-                        </div>
-                        <a class="btn btn-link" data-toggle="modal" data-target="#eventDetailModal">Kommentit (3)</a>
-                    </li>
-                    <li class="list-group-item">
-                        <h5>Puistokonsertti @ Kaivopuisto</h5>
-                        <p>Avoin konsertti puistossa lauantaina.</p>
-                        <div>Reaktiot:
-                            <span class="btn btn-sm btn-light mx-1" role="button">😍</span>
-                            <span class="btn btn-sm btn-light mx-1" role="button">👏</span>
-                        </div>
-                        <a class="btn btn-link" data-toggle="modal" data-target="#eventDetailModal">Kommentit (0)</a>
-                    </li>
-                </ul>
-                <button class="btn btn-primary mt-3" data-toggle="modal" data-target="#createEventModal">Luo uusi tapahtuma</button>
-            </div>
-        </div>
+				<div class="col-md-4">
+					<h3>Viime lisätyt tapahtumat</h3>
+						<ul id="eventList" class="list-group">
+							<li class="list-group-item">
+								<h5>Katujuhlat @ Helsinki</h5>
+								<p>Pienimuotoiset juhlat Helsingin keskustassa.</p>
+								<div>Reaktiot:
+									<span class="btn btn-sm btn-light mx-1" role="button">😊</span>
+									<span class="btn btn-sm btn-light mx-1" role="button">👍</span>
+									<span class="btn btn-sm btn-light mx-1" role="button">🎉</span>
+								</div>
+								<a class="btn btn-link" data-toggle="modal" data-target="#eventDetailModal">Kommentit (3)</a>
+							</li>
+						</ul>
+					<button class="btn btn-primary mt-3" data-toggle="modal" data-target="#createEventModal">Luo uusi tapahtuma</button>
+				</div>
+			</div>
 
-        <div class="row mt-4">
-            <div class="col-md-12">
-                <h3>Viime lisätyt tapahtumat</h3>
-                <ul class="list-group">
-                    <li class="list-group-item">
-                        <h5>Katujuhlat @ Helsinki</h5>
-                        <p>Pienimuotoiset juhlat Helsingin keskustassa.</p>
-                        <div>Reaktiot:
-                            <span class="btn btn-sm btn-light mx-1" role="button">😊</span>
-                            <span class="btn btn-sm btn-light mx-1" role="button">👍</span>
-                            <span class="btn btn-sm btn-light mx-1" role="button">🎉</span>
-                        </div>
-                        <a class="btn btn-link" data-toggle="modal" data-target="#eventDetailModal">Kommentit (3)</a>
-                    </li>
-                    <li class="list-group-item">
-                        <h5>Puistokonsertti @ Kaivopuisto</h5>
-                        <p>Avoin konsertti puistossa lauantaina.</p>
-                        <div>Reaktiot:
-                            <span class="btn btn-sm btn-light mx-1" role="button">😍</span>
-                            <span class="btn btn-sm btn-light mx-1" role="button">👏</span>
-                        </div>
-                        <a class="btn btn-link" data-toggle="modal" data-target="#eventDetailModal">Kommentit (0)</a>
-                    </li>
-                    <li class="list-group-item">
-                        <h5>Kirpputori @ Kallio</h5>
-                        <p>Suuri kirpputori Kallion sydämessä.</p>
-                        <div>Reaktiot:
-                            <span class="btn btn-sm btn-light mx-1" role="button">💰</span>
-                            <span class="btn btn-sm btn-light mx-1" role="button">🛍️</span>
-                        </div>
-                        <a class="btn btn-link" data-toggle="modal" data-target="#eventDetailModal">Kommentit (2)</a>
-                    </li>
-                    <li class="list-group-item">
-                        <h5>Rantabileet @ Lauttasaari</h5>
-                        <p>Kesäiset rantabileet Lauttasaaressa.</p>
-                        <div>Reaktiot:
-                            <span class="btn btn-sm btn-light mx-1" role="button">🏖️</span>
-                            <span class="btn btn-sm btn-light mx-1" role="button">🍹</span>
-                        </div>
-                        <a class="btn btn-link" data-toggle="modal" data-target="#eventDetailModal">Kommentit (1)</a>
-                    </li>
-                    <li class="list-group-item">
-                        <h5>Kahvifestivaalit @ Töölö</h5>
-                        <p>Kahvin ystävien festivaali Töölössä.</p>
-                        <div>Reaktiot:
-                            <span class="btn btn-sm btn-light mx-1" role="button">☕</span>
-                            <span class="btn btn-sm btn-light mx-1" role="button">😍</span>
-                        </div>
-                        <a class="btn btn-link" data-toggle="modal" data-target="#eventDetailModal">Kommentit (4)</a>
-                    </li>
-                    <li class="list-group-item">
-                        <h5>Elokuvailta @ Kamppi</h5>
-                        <p>Ulkoilmaelokuvailta Kampin keskuspuistossa.</p>
-                        <div>Reaktiot:
-                            <span class="btn btn-sm btn-light mx-1" role="button">🎬</span>
-                            <span class="btn btn-sm btn-light mx-1" role="button">🍿</span>
-                        </div>
-                        <a class="btn btn-link" data-toggle="modal" data-target="#eventDetailModal">Kommentit (5)</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
+			<div class="row mt-4">
+				<div class="col-md-12">
+					<h3>Viime lisätyt tapahtumat</h3>
+					<ul class="list-group">
+						<li class="list-group-item">
+							<h5>Katujuhlat @ Helsinki</h5>
+							<p>Pienimuotoiset juhlat Helsingin keskustassa.</p>
+							<div>
+								Reaktiot:
+								<span class="btn btn-sm btn-light mx-1" role="button">😊</span>
+								<span class="btn btn-sm btn-light mx-1" role="button">👍</span>
+								<span class="btn btn-sm btn-light mx-1" role="button">🎉</span>
+							</div>
+							<a class="btn btn-link" data-toggle="modal" data-target="#eventDetailModal">Kommentit (3)</a>
+						</li>
+						<li class="list-group-item">
+							<h5>Puistokonsertti @ Kaivopuisto</h5>
+							<p>Avoin konsertti puistossa lauantaina.</p>
+							<div>
+								Reaktiot:
+								<span class="btn btn-sm btn-light mx-1" role="button">😍</span>
+								<span class="btn btn-sm btn-light mx-1" role="button">👏</span>
+							</div>
+							<a class="btn btn-link" data-toggle="modal" data-target="#eventDetailModal">Kommentit (0)</a>
+						</li>
+					</ul>
+				</div>
+			</div>
 
-    <!-- Tapahtuman yksityiskohdat -modaali -->
-    <div class="modal fade" id="eventDetailModal" tabindex="-1" role="dialog" aria-labelledby="eventDetailModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="eventDetailModalLabel">Tapahtuman tiedot</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <!-- Tapahtuman esimerkkitiedot -->
-                    <h4>Katujuhlat @ Helsinki</h4>
-                    <p>Järjestäjä: John Doe</p>
-                    <p>Katujuhlat alkavat klo 12:00 ja jatkuvat iltaan saakka. Tarjolla on livemusiikkia, ruokakojuja ja muuta kivaa ohjelmaa.</p>
+			<div class="row mt-4">
+				<div class="col-md-12">
+					<h3>Viime lisätyt tapahtumat</h3>
+					<ul class="list-group">
+						<li class="list-group-item">
+							<h5>Katujuhlat @ Helsinki</h5>
+							<p>Pienimuotoiset juhlat Helsingin keskustassa.</p>
+							<div>
+								Reaktiot:
+								<span class="btn btn-sm btn-light mx-1" role="button">😊</span>
+								<span class="btn btn-sm btn-light mx-1" role="button">👍</span>
+								<span class="btn btn-sm btn-light mx-1" role="button">🎉</span>
+							</div>
+							<a class="btn btn-link" data-toggle="modal" data-target="#eventDetailModal">Kommentit (3)</a>
+						</li>
+						<li class="list-group-item">
+							<h5>Puistokonsertti @ Kaivopuisto</h5>
+							<p>Avoin konsertti puistossa lauantaina.</p>
+							<div>
+								Reaktiot:
+								<span class="btn btn-sm btn-light mx-1" role="button">😍</span>
+								<span class="btn btn-sm btn-light mx-1" role="button">👏</span>
+							</div>
+							<a class="btn btn-link" data-toggle="modal" data-target="#eventDetailModal">Kommentit (0)</a>
+						</li>
+						<li class="list-group-item">
+							<h5>Kirpputori @ Kallio</h5>
+							<p>Suuri kirpputori Kallion sydämessä.</p>
+							<div>
+								Reaktiot:
+								<span class="btn btn-sm btn-light mx-1" role="button">💰</span>
+								<span class="btn btn-sm btn-light mx-1" role="button">🛍️</span>
+							</div>
+							<a class="btn btn-link" data-toggle="modal" data-target="#eventDetailModal">Kommentit (2)</a>
+						</li>
+						<li class="list-group-item">
+							<h5>Rantabileet @ Lauttasaari</h5>
+							<p>Kesäiset rantabileet Lauttasaaressa.</p>
+							<div>
+								Reaktiot:
+								<span class="btn btn-sm btn-light mx-1" role="button">🏖️</span>
+								<span class="btn btn-sm btn-light mx-1" role="button">🍹</span>
+							</div>
+							<a class="btn btn-link" data-toggle="modal" data-target="#eventDetailModal">Kommentit (1)</a>
+						</li>
+						<li class="list-group-item">
+							<h5>Kahvifestivaalit @ Töölö</h5>
+							<p>Kahvin ystävien festivaali Töölössä.</p>
+							<div>
+								Reaktiot:
+								<span class="btn btn-sm btn-light mx-1" role="button">☕</span>
+								<span class="btn btn-sm btn-light mx-1" role="button">😍</span>
+							</div>
+							<a class="btn btn-link" data-toggle="modal" data-target="#eventDetailModal">Kommentit (4)</a>
+						</li>
+						<li class="list-group-item">
+							<h5>Elokuvailta @ Kamppi</h5>
+							<p>Ulkoilmaelokuvailta Kampin keskuspuistossa.</p>
+							<div>
+								Reaktiot:
+								<span class="btn btn-sm btn-light mx-1" role="button">🎬</span>
+								<span class="btn btn-sm btn-light mx-1" role="button">🍿</span>
+							</div>
+							<a class="btn btn-link" data-toggle="modal" data-target="#eventDetailModal">Kommentit (5)</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
 
-                    <h5 class="mt-4">Reagoi tapahtumaan:</h5>
-                    <div class="btn-group">
-                        <button class="btn btn-light" role="button">😊</button>
-                        <button class="btn btn-light" role="button">👍</button>
-                        <button class="btn btn-light" role="button">🎉</button>
-                        <button class="btn btn-light" role="button">😍</button>
-                        <button class="btn btn-light" role="button">👏</button>
-                    </div>
+		<!-- Tapahtuman yksityiskohdat -modaali -->
+		<div class="modal fade" id="eventDetailModal" tabindex="-1" role="dialog" aria-labelledby="eventDetailModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="eventDetailModalLabel">Tapahtuman tiedot</h5>
+						<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<!-- Tapahtuman esimerkkitiedot -->
+						<h4>Katujuhlat @ Helsinki</h4>
+						<p>Järjestäjä: John Doe</p>
+						<p>Katujuhlat alkavat klo 12:00 ja jatkuvat iltaan saakka. Tarjolla on livemusiikkia, ruokakojuja ja muuta kivaa ohjelmaa.</p>
 
-                    <h5 class="mt-4">Kommentit:</h5>
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <strong>Ano Nyymi:</strong> "Mahtavaa, tulen varmasti paikalle!"
-                        </li>
-                        <li class="list-group-item">
-                            <strong>Ano Nyymi:</strong> "Onko alueella lasten leikkipaikkaa?"
-                        </li>
-                        <li class="list-group-item">
-                            <strong>Any Nyymi:</strong> "Kuulostaa hyvältä. Toivottavasti sää on hyvä."
-                        </li>
-                    </ul>
+						<h5 class="mt-4">Reagoi tapahtumaan:</h5>
+						<div class="btn-group">
+							<button class="btn btn-light" role="button">😊</button>
+							<button class="btn btn-light" role="button">👍</button>
+							<button class="btn btn-light" role="button">🎉</button>
+							<button class="btn btn-light" role="button">😍</button>
+							<button class="btn btn-light" role="button">👏</button>
+						</div>
 
-                    <!-- Uuden kommentin lisäys -->
-                    <form class="mt-3">
-                        <div class="form-group">
-                            <label for="commentText">Lisää kommentti</label>
-                            <textarea class="form-control" id="commentText" placeholder="Kirjoita kommentti..." rows="2"></textarea>
-                        </div>
-                        <button class="btn btn-primary" type="submit">Lähetä</button>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Sulje</button>
-                </div>
-            </div>
-        </div>
-    </div>
+						<h5 class="mt-4">Kommentit:</h5>
+						<ul class="list-group">
+							<li class="list-group-item"><strong>Ano Nyymi:</strong> "Mahtavaa, tulen varmasti paikalle!"</li>
+							<li class="list-group-item"><strong>Ano Nyymi:</strong> "Onko alueella lasten leikkipaikkaa?"</li>
+							<li class="list-group-item"><strong>Any Nyymi:</strong> "Kuulostaa hyvältä. Toivottavasti sää on hyvä."</li>
+						</ul>
 
-    <!-- Luo uusi tapahtuma -modaali -->
-    <div class="modal fade" id="createEventModal" tabindex="-1" role="dialog" aria-labelledby="createEventModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="createEventModalLabel">Luo uusi tapahtuma</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="createEventForm">
-                        <div class="form-group">
-                            <label for="eventTitle">Tapahtuman nimi</label>
-                            <input class="form-control" id="eventTitle" type="text" placeholder="Esim. Katujuhlat">
-                        </div>
-                        <div class="form-group">
-                            <label for="eventDescription">Kuvaus</label>
-                            <textarea class="form-control" id="eventDescription" placeholder="Lyhyt kuvaus tapahtumasta" rows="3"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="eventLocation">Sijainti</label>
-                            <input class="form-control" id="eventLocation" type="text" placeholder="Esim. Helsingin keskusta">
-                        </div>
-                        <button class="btn btn-primary" type="submit">Lisää tapahtuma</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+						<!-- Uuden kommentin lisäys -->
+						<form class="mt-3">
+							<div class="form-group">
+								<label for="commentText">Lisää kommentti</label>
+								<textarea class="form-control" id="commentText" placeholder="Kirjoita kommentti..." rows="2"></textarea>
+							</div>
+							<button class="btn btn-primary" type="submit">Lähetä</button>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-secondary" type="button" data-dismiss="modal">Sulje</button>
+					</div>
+				</div>
+			</div>
+		</div>
 
-    <!-- Kirjautumissivu -modaali -->
-    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="loginModalLabel">Kirjaudu</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="loginForm">
-                        <div class="form-group">
-                            <label for="loginEmail">Sähköposti</label>
-                            <input type="email" class="form-control" id="loginEmail" placeholder="Syötä sähköpostisi">
-                        </div>
-                        <div class="form-group">
-                            <label for="loginPassword">Salasana</label>
-                            <input type="password" class="form-control" id="loginPassword" placeholder="Syötä salasanasi">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Kirjaudu</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+		<!-- Luo uusi tapahtuma -modaali -->
+		<div class="modal fade" id="createEventModal" tabindex="-1" role="dialog" aria-labelledby="createEventModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="createEventModalLabel">Luo uusi tapahtuma</h5>
+						<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form id="createEventForm">
+							<div class="form-group">
+								<label for="eventTitle">Tapahtuman nimi</label>
+								<input class="form-control" id="eventTitle" type="text" placeholder="Esim. Katujuhlat" />
+							</div>
+							<div class="form-group">
+								<label for="eventDescription">Kuvaus</label>
+								<textarea class="form-control" id="eventDescription" placeholder="Lyhyt kuvaus tapahtumasta" rows="3"></textarea>
+							</div>
+							<div class="form-group">
+								<label for="eventLocation">Sijainti</label>
+								<input class="form-control" id="eventLocation" type="text" placeholder="Esim. Helsingin keskusta" />
+							</div>
+							<button class="btn btn-primary" type="submit">Lisää tapahtuma</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
 
-    <!-- Rekisteröintisivu -modaali -->
-    <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="registerModalLabel">Rekisteröidy</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group">
-                            <label for="registerEmail">Sähköposti</label>
-                            <input type="email" class="form-control" id="registerEmail" placeholder="Syötä sähköpostisi">
-                        </div>
-                        <div class="form-group">
-                            <label for="registerPassword">Salasana</label>
-                            <input type="password" class="form-control" id="registerPassword" placeholder="Syötä salasanasi">
-                        </div>
-                        <div class="form-group">
-                            <label for="registerConfirmPassword">Vahvista salasana</label>
-                            <input type="password" class="form-control" id="registerConfirmPassword" placeholder="Vahvista salasanasi">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Rekisteröidy</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+		<!-- Kirjautumissivu -modaali -->
+		<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="loginModalLabel">Kirjaudu</h5>
+						<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form id="loginForm">
+							<div class="form-group">
+								<label for="loginEmail">Sähköposti</label>
+								<input type="email" class="form-control" id="loginEmail" placeholder="Syötä sähköpostisi" />
+							</div>
+							<div class="form-group">
+								<label for="loginPassword">Salasana</label>
+								<input type="password" class="form-control" id="loginPassword" placeholder="Syötä salasanasi" />
+							</div>
+							<button type="submit" class="btn btn-primary">Kirjaudu</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
 
-    <!-- Bootstrap JS + Popper + jQuery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script>
-        var map = L.map('map').setView([60.1699, 24.9384], 13); // Coordinates for Helsinki
+		<!-- Rekisteröintisivu -modaali -->
+		<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="registerModalLabel">Rekisteröidy</h5>
+						<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form>
+							<div class="form-group"></div>
+								<label for="registerEmail">Sähköposti</label>
+								<input type="email" class="form-control" id="registerEmail" placeholder="Syötä sähköpostisi" />
+							</div>
+							<div class="form-group">
+								<label for="registerPassword">Salasana</label>
+								<input type="password" class="form-control" id="registerPassword" placeholder="Syötä salasanasi" />
+							</div>
+							<div class="form-group">
+								<label for="registerConfirmPassword">Vahvista salasana</label>
+								<input type="password" class="form-control" id="registerConfirmPassword" placeholder="Vahvista salasanasi" />
+							</div>
+							<button type="submit" class="btn btn-primary">Rekisteröidy</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
+		<!-- Bootstrap JS + Popper + jQuery -->
+		<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+		<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+		<script>
+			var map = L.map('map').setView([60.1699, 24.9384], 13); // Coordinates for Helsinki
 
-        $.get('/api/events', function(events) {
-            events.forEach(function(event) {
-                var popupContent = `
+			L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+				attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+			}).addTo(map);
+
+			$.get('/api/events', function (events) {
+				events.forEach(function (event) {
+					var popupContent = `
                     <a href="#" data-toggle="modal" data-target="#eventDetailModal">${event.title}</a><br>
                     <div>Reaktiot:</div>
                     <div>😊: ${event.reactions.smile || 0}</div>
@@ -334,53 +354,60 @@
                     <div>🎬: ${event.reactions.clapperBoard || 0}</div>
                     <div>🍿: ${event.reactions.popcorn || 0}</div>
                 `;
-                L.marker(event.coords).addTo(map)
-                    .bindPopup(popupContent)
-                    .openPopup();
-            });
-        });
+					L.marker(event.coords).addTo(map).bindPopup(popupContent).openPopup();
+				});
+			});
 
-        $('#loginForm').on('submit', function(e) {
-            e.preventDefault();
-            $('#loginEmail').val = 'opettaja@lut.fi';
-            $('#loginPassword').val = 'opettaja';
-            var email = $('#loginEmail').val();
-            var password = $('#loginPassword').val();
-            if (email === 'opettaja@lut.fi' && password === 'opettaja') {
-                $('#loginModal').modal('hide');
-                $('#loginButton').addClass('d-none');
-                $('#registerButton').addClass('d-none');
-                $('#profileButton').removeClass('d-none');
-                $('#logoutButton').removeClass('d-none');
-            } else {
-                alert('Invalid credentials');
-            }
-        });
+			$('#loginForm').on('submit', function (e) {
+				e.preventDefault();
+				$('#loginEmail').val = 'opettaja@lut.fi';
+				$('#loginPassword').val = 'opettaja';
+				var email = $('#loginEmail').val();
+				var password = $('#loginPassword').val();
+				if (email === 'opettaja@lut.fi' && password === 'opettaja') {
+					$('#loginModal').modal('hide');
+					$('#loginButton').addClass('d-none');
+					$('#registerButton').addClass('d-none');
+					$('#profileButton').removeClass('d-none');
+					$('#logoutButton').removeClass('d-none');
+				} else {
+					alert('Invalid credentials');
+				}
+			});
 
-        $('#logoutButton').on('click', function() {
-            $('#loginButton').removeClass('d-none');
-            $('#registerButton').removeClass('d-none');
-            $('#profileButton').addClass('d-none');
-            $('#logoutButton').addClass('d-none');
-        });
+			$('#logoutButton').on('click', function () {
+				$('#loginButton').removeClass('d-none');
+				$('#registerButton').removeClass('d-none');
+				$('#profileButton').addClass('d-none');
+				$('#logoutButton').addClass('d-none');
+			});
 
-        $('#createEventForm').on('submit', function(e) {
-            e.preventDefault();
-            var title = $('#eventTitle').val();
-            var description = $('#eventDescription').val();
-            var location = $('#eventLocation').val();
-            $.get(`https://nominatim.openstreetmap.org/search?format=json&q=${location}`, function(data) {
-                if (data.length > 0) {
-                    var coords = [data[0].lat, data[0].lon];
-                    $.post('/api/events', { title, description, coords }, function() {
-                        alert('Event created successfully');
-                        $('#createEventModal').modal('hide');
-                    });
-                } else {
-                    alert('Invalid address');
-                }
-            });
-        });
-    </script>
-</body>
+			$('#createEventForm').on('submit', function (e) {
+				e.preventDefault();
+				var title = $('#eventTitle').val();
+				var description = $('#eventDescription').val();
+				var location = $('#eventLocation').val();
+				$.get(`https://nominatim.openstreetmap.org/search?format=json&q=${location}`, function (data) {
+					if (data.length > 0) {
+						var coords = [data[0].lat, data[0].lon];
+						$.post('/api/events', {title, description, coords}, function () {
+							alert('Event created successfully');
+							$('#createEventModal').modal('hide');
+						});
+					} else {
+						alert('Invalid address');
+					}
+				});
+			});
+
+			$(document).ready(function () {
+				if (localStorage.getItem('loggedIn') === 'true') {
+					$('#loginButton').addClass('d-none');
+					$('#registerButton').addClass('d-none');
+					$('#profileButton').removeClass('d-none');
+					$('#logoutButton').removeClass('d-none');
+				}
+			});
+		</script>
+	</body>
 </html>
