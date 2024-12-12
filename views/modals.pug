@@ -1,0 +1,94 @@
+//- Tapahtuman yksityiskohdat -modaali
+.modal.fade#eventDetailModal(tabindex="-1" role="dialog" aria-labelledby="eventDetailModalLabel" aria-hidden="true")
+  .modal-dialog.modal-lg(role="document")
+    .modal-content
+      .modal-header
+        h5.modal-title#eventDetailModalLabel Tapahtuman tiedot
+        button.close(type="button" data-dismiss="modal" aria-label="Close")
+          span(aria-hidden="true") ×
+      .modal-body
+        h4 Katujuhlat @ Helsinki
+        p Järjestäjä: John Doe
+        p Katujuhlat alkavat klo 12:00 ja jatkuvat iltaan saakka. Tarjolla on livemusiikkia, ruokakojuja ja muuta kivaa ohjelmaa.
+        h5.mt-4 Reagoi tapahtumaan:
+        .btn-group
+          button.btn.btn-light(role="button") 😊
+          button.btn.btn-light(role="button") 👍
+          button.btn.btn-light(role="button") 🎉
+          button.btn.btn-light(role="button") 😍
+          button.btn.btn-light(role="button") 👏
+        h5.mt-4 Kommentit:
+        ul.list-group
+          li.list-group-item
+            strong Ano Nyymi: "Mahtavaa, tulen varmasti paikalle!"
+          li.list-group-item
+            strong Ano Nyymi: "Onko alueella lasten leikkipaikkaa?"
+          li.list-group-item
+            strong Any Nyymi: "Kuulostaa hyvältä. Toivottavasti sää on hyvä."
+        form.mt-3
+          .form-group
+            label(for="commentText") Lisää kommentti
+            textarea.form-control#commentText(placeholder="Kirjoita kommentti..." rows="2")
+          button.btn.btn-primary(type="submit") Lähetä
+      .modal-footer
+        button.btn.btn-secondary(type="button" data-dismiss="modal") Sulje
+
+//- Luo uusi tapahtuma -modaali
+.modal.fade#createEventModal(tabindex="-1" role="dialog" aria-labelledby="createEventModalLabel" aria-hidden="true")
+  .modal-dialog(role="document")
+    .modal-content
+      .modal-header
+        h5.modal-title#createEventModalLabel Luo uusi tapahtuma
+        button.close(type="button" data-dismiss="modal" aria-label="Close")
+          span(aria-hidden="true") ×
+      .modal-body
+        form#createEventForm
+          .form-group
+            label(for="eventTitle") Tapahtuman nimi
+            input.form-control#eventTitle(type="text" placeholder="Esim. Katujuhlat")
+          .form-group
+            label(for="eventDescription") Kuvaus
+            textarea.form-control#eventDescription(placeholder="Lyhyt kuvaus tapahtumasta" rows="3")
+          .form-group
+            label(for="eventLocation") Sijainti
+            input.form-control#eventLocation(type="text" placeholder="Esim. Helsingin keskusta")
+          button.btn.btn-primary(type="submit") Lisää tapahtuma
+
+//- Kirjautumissivu -modaali
+.modal.fade#loginModal(tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true")
+  .modal-dialog(role="document")
+    .modal-content
+      .modal-header
+        h5.modal-title#loginModalLabel Kirjaudu
+        button.close(type="button" data-dismiss="modal" aria-label="Close")
+          span(aria-hidden="true") ×
+      .modal-body
+        form#loginForm
+          .form-group
+            label(for="loginEmail") Sähköposti
+            input.form-control#loginEmail(type="email" placeholder="Syötä sähköpostisi")
+          .form-group
+            label(for="loginPassword") Salasana
+            input.form-control#loginPassword(type="password" placeholder="Syötä salasanasi")
+          button.btn.btn-primary(type="submit") Kirjaudu
+
+//- Rekisteröintisivu -modaali
+.modal.fade#registerModal(tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true")
+  .modal-dialog(role="document")
+    .modal-content
+      .modal-header
+        h5.modal-title#registerModalLabel Rekisteröidy
+        button.close(type="button" data-dismiss="modal" aria-label="Close")
+          span(aria-hidden="true") ×
+      .modal-body
+        form
+          .form-group
+            label(for="registerEmail") Sähköposti
+            input.form-control#registerEmail(type="email" placeholder="Syötä sähköpostisi")
+          .form-group
+            label(for="registerPassword") Salasana
+            input.form-control#registerPassword(type="password" placeholder="Syötä salasanasi")
+          .form-group
+            label(for="registerConfirmPassword") Vahvista salasana
+            input.form-control#registerConfirmPassword(type="password" placeholder="Vahvista salasanasi")
+          button.btn.btn-primary(type="submit") Rekisteröidy

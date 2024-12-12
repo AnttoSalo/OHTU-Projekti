@@ -1,0 +1,13 @@
+{
+  "name": "ohtu-project",
+  "version": "1.0.0",
+  "description": "OHTU project with Node.js and Express",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "pug": "^3.0.3"
+  }
+}
