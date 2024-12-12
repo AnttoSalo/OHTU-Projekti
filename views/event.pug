@@ -1,0 +1,27 @@
+doctype html
+html(lang="fi")
+  head
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
+    title #{event.title}
+    link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css")
+  body
+    .container.mt-4
+      h3 #{event.title}
+      p #{event.description}
+      p Sijainti: #{event.coords[0]}, #{event.coords[1]}
+      h5 Reaktiot:
+      .btn-group
+        each reaction, count in event.reactions
+          button.btn.btn-light(role="button") #{reaction}: #{count}
+      h5.mt-4 Kommentit:
+      ul.list-group
+        each comment in event.comments
+          li.list-group-item
+            strong #{comment.author}: #{comment.text}
+      form.mt-3
+        .form-group
+          label(for="commentText") Lisää kommentti
+          textarea.form-control#commentText(placeholder="Kirjoita kommentti..." rows="2")
+        button.btn.btn-primary(type="submit") Lähetä
+      button.btn.btn-secondary.mt-3(onclick="window.location.href='/'") Takaisin

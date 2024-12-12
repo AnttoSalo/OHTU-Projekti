@@ -63,10 +63,33 @@ html(lang="fi")
               li.list-group-item
                 h5 #{event.title}
                 p #{event.description}
-                div Reaktiot:
-                  each reaction, count in event.reactions
-                    span.btn.btn-sm.btn-light.mx-1(role="button") #{reaction}
-                a.btn.btn-link(data-toggle="modal" data-target="#eventDetailModal") Kommentit (#{event.comments.length})
+                span Reaktiot: 
+                span.reactions
+                  if event.reactions.smile
+                    span 😊:#{event.reactions.smile} 
+                  if event.reactions.thumbsUp
+                    span 👍:#{event.reactions.thumbsUp} 
+                  if event.reactions.party
+                    span 🎉:#{event.reactions.party} 
+                  if event.reactions.heartEyes
+                    span 😍:#{event.reactions.heartEyes} 
+                  if event.reactions.clap
+                    span 👏:#{event.reactions.clap} 
+                  if event.reactions.moneyBag
+                    span 💰:#{event.reactions.moneyBag} 
+                  if event.reactions.shoppingBags
+                    span 🛍️:#{event.reactions.shoppingBags} 
+                  if event.reactions.beach
+                    span 🏖️:#{event.reactions.beach} 
+                  if event.reactions.cocktail
+                    span 🍹:#{event.reactions.cocktail} 
+                  if event.reactions.coffee
+                    span ☕:#{event.reactions.coffee} 
+                  if event.reactions.clapperBoard
+                    span 🎬:#{event.reactions.clapperBoard} 
+                  if event.reactions.popcorn
+                    span 🍿:#{event.reactions.popcorn} 
+                a.btn.btn-link.event-link(data-id=event.id data-toggle="modal" data-target="#eventDetailModal") Kommentit (#{event.comments.length})
           button.btn.btn-primary.mt-3(data-toggle="modal" data-target="#createEventModal") Luo uusi tapahtuma
 
     include modals.pug

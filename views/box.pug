@@ -1,0 +1,40 @@
+doctype html
+html(lang="fi")
+  head
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
+    title Chatbox
+    link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css")
+  body
+    .container.mt-4
+      h3 Chatbox
+      ul.list-group#messagesList
+        each message in messages
+          li.list-group-item
+            strong #{message.author}:
+            |  #{message.text}
+      form#messageForm.mt-3
+        .form-group
+          label(for="messageAuthor") Nimi
+          input.form-control#messageAuthor(type="text" placeholder="Syötä nimesi" required)
+        .form-group
+          label(for="messageText") Viesti
+          textarea.form-control#messageText(placeholder="Kirjoita viesti..." rows="2" required)
+        button.btn.btn-primary(type="submit") Lähetä
+
+    script(src="https://code.jquery.com/jquery-3.5.1.min.js")
+    script.
+      $('#messageForm').on('submit', function(e) {
+        e.preventDefault();
+        var author = $('#messageAuthor').val();
+        var text = $('#messageText').val();
+        $.post('/api/messages', { author, text }, function() {
+          $('#messagesList').append(`
+            <li class="list-group-item">
+              <strong>${author}:</strong> ${text}
+            </li>
+          `);
+          $('#messageAuthor').val('');
+          $('#messageText').val('');
+        });
+      });

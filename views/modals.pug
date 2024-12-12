@@ -7,24 +7,12 @@
         button.close(type="button" data-dismiss="modal" aria-label="Close")
           span(aria-hidden="true") ×
       .modal-body
-        h4 Katujuhlat @ Helsinki
-        p Järjestäjä: John Doe
-        p Katujuhlat alkavat klo 12:00 ja jatkuvat iltaan saakka. Tarjolla on livemusiikkia, ruokakojuja ja muuta kivaa ohjelmaa.
+        h4#eventTitleModal
+        p#eventDescriptionModal
         h5.mt-4 Reagoi tapahtumaan:
-        .btn-group
-          button.btn.btn-light(role="button") 😊
-          button.btn.btn-light(role="button") 👍
-          button.btn.btn-light(role="button") 🎉
-          button.btn.btn-light(role="button") 😍
-          button.btn.btn-light(role="button") 👏
+        .btn-group#eventReactionsModal
         h5.mt-4 Kommentit:
-        ul.list-group
-          li.list-group-item
-            strong Ano Nyymi: "Mahtavaa, tulen varmasti paikalle!"
-          li.list-group-item
-            strong Ano Nyymi: "Onko alueella lasten leikkipaikkaa?"
-          li.list-group-item
-            strong Any Nyymi: "Kuulostaa hyvältä. Toivottavasti sää on hyvä."
+        ul.list-group#eventCommentsModal
         form.mt-3
           .form-group
             label(for="commentText") Lisää kommentti
@@ -45,13 +33,22 @@
         form#createEventForm
           .form-group
             label(for="eventTitle") Tapahtuman nimi
-            input.form-control#eventTitle(type="text" placeholder="Esim. Katujuhlat")
+            input.form-control#eventTitle(type="text" placeholder="Esim. Katujuhlat" required)
           .form-group
             label(for="eventDescription") Kuvaus
-            textarea.form-control#eventDescription(placeholder="Lyhyt kuvaus tapahtumasta" rows="3")
+            textarea.form-control#eventDescription(placeholder="Lyhyt kuvaus tapahtumasta" rows="3" required)
           .form-group
             label(for="eventLocation") Sijainti
-            input.form-control#eventLocation(type="text" placeholder="Esim. Helsingin keskusta")
+            input.form-control#eventLocation(type="text" placeholder="Esim. Helsingin keskusta" required)
+          .form-group
+            label(for="eventCoords") Koordinaatit (lat, lon)
+            input.form-control#eventCoords(type="text" placeholder="Esim. 60.1699, 24.9384" required)
+          .form-group
+            label(for="eventDate") Päivämäärä
+            input.form-control#eventDate(type="date" required)
+          .form-group
+            label(for="eventTime") Kellonaika
+            input.form-control#eventTime(type="time" required)
           button.btn.btn-primary(type="submit") Lisää tapahtuma
 
 //- Kirjautumissivu -modaali
